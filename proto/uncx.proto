@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package uncx;
+import "google/protobuf/timestamp.proto";
+//TODO rename to UNCX BLOCK EVENTS
+message UncxEvents {
+    repeated RaydiumTransactionEvents raydium_transactions = 1;
+    repeated UncxTransactionEvents uncx_transactions =2;
+}
+message UncxTransactionEvents {
+    string signature = 1;
+    uint32 transaction_index = 2;
+    repeated UncxLockerEvent events = 3;
+}
+
+message RaydiumTransactionEvents {
+    string signature = 1;
+    uint32 transaction_index = 2;
+    repeated RaydiumEvent events = 3;
+}
+
+message UncxLockerEvent {
+    uint32 instruction_index = 1;
+    //TODO rename to uncx_locker_event
+    oneof event {
+        OnNewLock new_lock = 2;
+        OnSplitLock split_lock = 3;
+        OnWithdraw withdrawLp = 4;
+        OnIncrementLock increment_lock = 5;
+        OnMigrate migrate_lock =6;
+        OnTransferLockOwnership transfer_lock_ownership =7;
+        OnRelock relock = 8;
+    }
+}
+message RaydiumEvent {
+    uint32 instruction_index = 1;
+    //rename to raydium_event
+    oneof event {
+        InitializeEvent initialize = 2;
+        DepositEvent deposit = 3;
+        WithdrawEvent withdraw = 4;
+        SwapEvent swap = 5;
+    }
+}
+
+message OnNewLock {
+    uint64 lock_id = 1;
+    string amm_id = 2;
+    string owner = 3;
+    uint64 amount = 4;
+    google.protobuf.Timestamp lock_date = 5;
+    google.protobuf.Timestamp unlock_date = 6;
+    uint32 country_code = 7;
+}
+
+message OnRelock {
+    uint64 lock_id = 1;
+    string lp_token = 2;
+    string owner = 3;
+    uint64 amount_remaining_in_lock = 4;
+    uint64 liquidity_fee = 5;
+    google.protobuf.Timestamp unlock_date = 6;
+}
+
+message OnWithdraw {
+    uint64 lock_id = 1;
+    string lp_token = 2;
+    string owner = 3;
+    uint64 amount_remaining_in_lock = 4;
+    uint64 amount_removed = 5;
+}
+
+message OnIncrementLock {
+    uint64 lock_id = 1;
+    string lp_token = 2;
+    string owner = 3;
+ //   string entity = 4;
+    uint64 amount_remaining_in_lock = 5;
+    uint64 amount_added = 6;
+    uint64 liquidity_fee = 7;
+}
+
+message OnSplitLock {
+    uint64 lock_id = 1;
+    string lp_token = 2;
+    string owner = 3;
+    uint64 amount_remaining_in_old_lock = 4;
+    uint64 amount_removed = 5;
+}
+
+message OnTransferLockOwnership {
+    uint64 lock_id = 1;
+    string lp_token = 2;
+    string old_owner = 3;
+    string new_owner = 4;
+}
+
+message OnMigrate {
+    uint64 lock_id = 1;
+    string lp_token = 2;
+    string owner = 3;
+    uint64 amount_remaining_in_lock = 4;
+    uint64 amount_migrated = 5;
+    uint32 migration_option = 6;
+}
+
+message InitializeEvent {
+    string amm = 1;
+    string user = 2;
+    uint64 pcInitAmount = 3;
+    uint64 coinInitAmount = 4;
+    uint64 lpInitAmount = 5;
+    string pcMint = 6;
+    string coinMint = 7;
+    string lpMint = 8;
+    uint32 nonce = 9;
+}
+
+message DepositEvent {
+    string amm = 1;
+    string user = 2;
+    uint64 pcAmount = 3;
+    uint64 coinAmount = 4;
+    uint64 lpAmount = 5;
+    string pcMint = 6;
+    string coinMint = 7;
+    string lpMint = 8;
+}
+
+message WithdrawEvent {
+    string amm = 1;
+    string user = 2;
+    uint64 pcAmount = 3;
+    uint64 coinAmount = 4;
+    uint64 lpAmount = 5;
+    string pcMint = 6;
+    string coinMint = 7;
+    string lpMint = 8;
+}
+
+message SwapEvent {
+    string amm = 1;
+    string user = 2;
+    string mintIn = 3;
+    string mintOut = 4;
+    uint64 amountIn = 5;
+    uint64 amountOut = 6;
+}

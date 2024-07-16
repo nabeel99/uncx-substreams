@@ -1,5 +1,5 @@
-# raydium-substream
-Stream Raydium events with [substreams](https://substreams.streamingfast.io).
+# uncx-substream
+Stream Uncx & Raydium events with [substreams](https://substreams.streamingfast.io).
 
 ## Usage
 1. Setup the environment variable `STREAMINGFAST_KEY` with an [API key](https://app.streamingfast.io/keys).

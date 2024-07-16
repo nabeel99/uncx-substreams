@@ -1,10 +1,10 @@
 [package]
-name = "raydium-substream"
+name = "uncx-substream"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "raydium_substream"
+name = "uncx-substream"
 crate-type = ["lib", "cdylib"]
 
 [dependencies]
@@ -17,8 +17,12 @@ substreams-solana-utils = { git = "https://github.com/0xpapercut/substreams-sola
 spl-token-substream = { git = "https://github.com/0xpapercut/spl-token-substream", rev = "696500d8c615b02310b8b4387cf5b02b1fb9fd70" }
 prost = "0.11"
 bs58 = "0.5.0"
+uncx-solana-lp-locker = { path = "../solana-lp-locker-monorepo/programs/uncx-solana-lp-locker" }
+prost-types = "0.11"
+anchor-lang="0.30.0"
+base64 = "0.22.1"
 
 [profile.release]
 lto = true
-opt-level = 's'
+opt-level = 's' 
 strip = "debuginfo"
